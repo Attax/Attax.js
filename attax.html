@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Attax.js测试</title>
+	<style>
+		.active{width: 100px;height: 100px;background-color: #fc0;position:absolute;}
+	</style>
+	<script src="attax.js"></script>
+	<script>
+		
+	</script>
+	<script>
+		$(function(){
+			//$('.div1').addClass('active');
+			/* $('#div1').removeClass('active');*/
+			$('#div1').css('width','140px');
+			/*alert($('#div1').attr('index'));*/
+			$('#div1').attr('title','it\'s bullshit');
+			$('#div1').css('backgroundColor','#fc090c');
+			$('#div1').css({'backgroundColor':'#86B300'});
+			console.log($('#div1').css('backgroundColor'));
+			Attax('#div1').css('height','400px');
+			Attax('#div1').animate({width:'200',left:100,top:300},{time:3000,end:function(){$('#div1').html('html\(\)方法成功')}});
+			Attax('#div1').find('.ch').html('cccc');
+		})
+	</script>
+</head>
+<body>
+	
+	<div id="div1" class="div1" index="1" title="to">
+		<div class="ch" id="1">
+		w
+		</div>
+	</div>
+	
+</body>
+</html>
