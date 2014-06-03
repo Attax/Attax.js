@@ -543,6 +543,48 @@
 
 	
 	
+	//jsonp方法
+	$.jsonp=function(url,data,options){
+		
+		var fnName='jsonp_'+Math.random();
+		fnName=fnName.replace('.','');
+		window[fnName]=function(json){
+			options.success && options.success(json);
+			options.complete && options.complete(json);
+			
+			//删除之前的jsonp产生的script标签
+			oHead.removeChild(oS);
+			window[fnName]=null;
+			clearTimeout(timer);
+		};
+		
+		//拼接url
+		data[options.callback]=fnName;
+		
+		var arr=[];
+		for(var name in data){
+			arr.push(name+'='+encodeURIComponent(data[name]));
+		};
+		
+		var sData=arr.join('&');
+		
+		//创建script
+		var oS=document.createElement('script');
+		oS.src=url+'?'+sData;
+		console.log(oS.src);
+		
+		var oHead=document.getElementsByTagName('head')[0];
+		oHead.appendChild(oS);
+		
+		timer=setTimeout(function(){
+			options.fnTime && options.fnTime();
+		},3000);	
+			
+		
+	};
+
+
+
 
 	
 	
