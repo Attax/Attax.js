@@ -22,7 +22,22 @@
 			console.log($('#div1').css('backgroundColor'));
 			Attax('#div1').css('height','400px');
 			Attax('#div1').animate({width:'200',left:100,top:300},{time:3000,end:function(){$('#div1').html('html\(\)方法成功')}});
-			Attax('#div1').find('.ch').html('cccc');
+			Attax('#div1').find('.ch').each(function(){$(this).html('cccc')});
+			
+			Attax.jsonp('http://suggestion.baidu.com/su',
+				{wd: 'aaa'},
+				{
+					callback:'cb',
+					success:function(json){
+						alert(json.s);
+					},
+					complete:function(json){
+						alert(json.s);
+					}
+				}
+			);
+			
+			
 		})
 	</script>
 </head>
