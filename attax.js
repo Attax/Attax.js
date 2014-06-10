@@ -609,6 +609,10 @@
 	
 	
 	
+	//CMD version attax.js
+	define(function (require, exports, module){
+		return $;
+	});
 	
 
 
