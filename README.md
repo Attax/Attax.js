@@ -16,6 +16,11 @@ Attax.js's selector engineer is called "Selector.js" like "Sizzle.js" of the jQu
 
 
 
-###Attax.js support ajax and jsonP.
+###Attax.js support ajax and JSONp.
 
 Attax.js support basic ajax method and jsonP method  to help us to exchange data width servers.
+
+
+####Attax.js support 'CMD' standard.
+
+Attax.js can be used width seajs or other module loader that using 'CMD' standard.
