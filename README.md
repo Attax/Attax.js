@@ -20,6 +20,10 @@ Attax.js's selector engineer is called "Selector.js" like "Sizzle.js" of the jQu
 
 `Attax.js` support basic ajax method and jsonP method  to help us to exchange data width servers.
 
+### Attax.js will support color/background animation
+
+
+`Attax.js` will supply color aimation  in next version. 
 
 ###Attax.js support 'CMD' standard.
 
