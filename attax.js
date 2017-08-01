@@ -618,3 +618,182 @@
 
 })(window);
 
+
+(function(doc,att){
+			var _attax=function $(selector){
+						var aChild=[];
+							switch(selector.charAt(0)){
+								case '#':	//id
+									var aEle=document.getElementById(selector.substring(1));
+									aChild.push(aEle);
+									break;
+								case '.':	//class
+									var aEle=getElementsByClassName(document,selector.substring(1));
+									for(var j=0;j<aEle.length;j++){
+										aChild.push(aEle[j]);
+									}
+									break;
+							}
+						return aChild;
+					};
+			function getElementsByClassName(parentNode,sClass){
+				if(document.getElementsByClassName){
+					return parentNode.getElementsByClassName(sClass);
+				}else{
+					//获取所有标签
+					var aEle=document.getElementsByTagName('*');
+					//空数组存储获取到的className元素
+					var result=[];
+					//匹配sClass的正则
+					var regExp=new RegExp('\\b'+sClass+'\\b');
+					for(var i=0;i<aEle.length;i++){
+						if(regExp.test(aEle[i].className)){
+							result.push(aEle[i]);
+						}
+					}
+					//循环结束后，返回所有className的元素
+					return result;
+				}
+			};
+			
+			(function(attax){
+				//判断DOMReady方法是否执行过
+				var isReady=false;
+				//存储需要执行的函数
+				var readyList=[];
+
+				var timer=null;
+
+				attax.ready=function(fn){
+					if(isReady){
+						fn.call(document);
+					}else{
+						readyList.push(
+								function(){
+									return fn.call(this);
+								}
+							);
+					}
+					return this;
+				}
+
+				var onDOMReady=function(){
+					for(var i=0;i<readyList.length;i++){
+						readyList[i].apply(document);
+					}
+					readyList=null;
+				}
+
+
+				var bindReady=function(){
+					if(isReady) return;
+					isReady=true;
+					onDOMReady.call(window);
+					if(document.removeEventListener){
+						document.removeEventListener('DOMContentLoaded',bindReady,false);
+					} else if(document.attachEvent){
+						document.detachEvent('onreadystatechange',bindReady);
+						if(window==window.top){
+							clearInterval(timer);
+							timer=null;
+						}
+					}
+				};
+
+				if(document.addEventListener){
+					document.addEventListener('DOMContentLoaded',bindReady,false);
+				}
+				else if(document.attachEvent){
+					document.attachEvent('onreadystatechange',function(){
+						if((/loaded|complete/).test(document.readyState)){
+							bindReady();
+						}
+					});
+
+					if(window==window.top){
+						timer=setInterval(function(){
+							try{
+								//在IE下面用doScroll能否执行来判断DOM是否加载完成
+								isReady||document.documentElement.doScroll('left');
+							}catch(e){
+								return;
+							}
+							bindReady();
+						},1)
+					}
+				}
+
+			})(_attax)
+
+			
+			
+			
+			
+			_attax.prototype={
+				css:function(){
+					
+				}
+				
+				
+			};
+			
+			//ajax、表单之类的
+			function json2url(json) {
+				var a = [];
+				for (var i in json) {
+					var v = json[i] + '';
+					v = v.replace(/\n/g, '<br/>');
+					v = encodeURIComponent(v);
+					a.push(i + '=' + v);
+				}
+				return a.join('&');
+			}
+
+			
+			_attax.ajax=function ajax(url, opt) {
+						opt = opt || {};
+						opt.data = opt.data || {};
+						opt.data.t = opt.data.t || new Date().getTime();
+						opt.method = opt.method || 'GET';
+
+						var oAjax = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+
+						if (opt.method == 'POST') {
+							oAjax.open('POST', url, true);
+							oAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+							try {
+								oAjax.send(opt.data ? json2url(opt.data) : null);
+							} catch (e) {}
+						} else {
+							url += '?' + json2url(opt.data);
+							oAjax.open('GET', url, true);
+							try {
+								oAjax.send();
+							} catch (e) {}
+						}
+
+						oAjax.onreadystatechange = function() {
+							if (oAjax.readyState == 4) {
+								if (oAjax.status == 200) {
+									opt.success && opt.success(oAjax.responseText);
+								} else {
+									opt.failed && opt.failed(oAjax.status);
+								}
+							}
+						};
+					};
+					
+			_attax.trim=function(str){
+				 return str.replace(/(^\s*)|(\s*$)/g,'');
+			};
+			
+			_attax.ltrim=function(str){
+				 return str.replace(/(^\s*)/g,'');
+			};
+			_attax.ltrim=function(str){
+				 return str.replace(/(\s*$)/g,'');
+			}
+					
+			
+			window.$=_attax;
+		})(document,'attax');
